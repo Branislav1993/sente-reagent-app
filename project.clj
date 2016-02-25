@@ -6,26 +6,23 @@
 
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [ring-server "0.4.0"]
-                 [reagent "0.5.1"
-                  :exclusions [org.clojure/tools.reader]]
+                 [reagent "0.5.1" :exclusions [org.clojure/tools.reader]]
                  [reagent-forms "0.5.16"]
                  [reagent-utils "0.1.7"]
                  [ring "1.4.0"]
                  [ring/ring-defaults "0.1.5"]
                  [compojure "1.4.0"]
                  [hiccup "1.0.5"]
+                 [http-kit "2.1.18"]
                  [environ "1.0.2"]
-                 [org.clojure/clojurescript "1.7.228"
-                  :scope "provided"]
+                 [org.clojure/clojurescript "1.7.228" :scope "provided"]
                  [secretary "1.2.3"]
                  [com.taoensso/sente "1.7.0"]
-                 [venantius/accountant "0.1.6"
-                  :exclusions [org.clojure/tools.reader]]]
+                 [venantius/accountant "0.1.6" :exclusions [org.clojure/tools.reader]]]
 
   :plugins [[lein-environ "1.0.2"]
             [lein-cljsbuild "1.1.1"]
-            [lein-asset-minifier "0.2.7"
-             :exclusions [org.clojure/clojure]]]
+            [lein-asset-minifier "0.2.7" :exclusions [org.clojure/clojure]]]
 
   :ring {:handler todoapp.handler/app
          :uberwar-name "todoapp.war"}
@@ -94,8 +91,7 @@
                    :figwheel {:http-server-root "public"
                               :server-port 3449
                               :nrepl-port 7002
-                              :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"
-                                                 ]
+                              :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"]
                               :css-dirs ["resources/public/css"]
                               :ring-handler todoapp.handler/app}
 
