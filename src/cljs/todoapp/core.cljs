@@ -26,11 +26,9 @@
 
 (def quotes ["quote 1" "quote 2" "quote 2"])
 
-(defn class-generator []
-    (rand-nth classes))
+(defn class-generator [] (rand-nth classes))
 
-(defn quote-generator []
-    (rand-nth quotes))
+(defn quote-generator [] (rand-nth quotes))
 
 (defn atom-input [value]
   [:input {:type "text"

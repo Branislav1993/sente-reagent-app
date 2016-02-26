@@ -5,6 +5,7 @@
             [todoapp.middleware :refer [wrap-middleware]]
             [environ.core :refer [env]]
             [taoensso.sente :as sente]
+            [taoensso.timbre :as timbre :refer-macros (tracef debugf infof warnf errorf)]
             [taoensso.sente.server-adapters.http-kit :refer (sente-web-server-adapter)]))
 
 
@@ -17,6 +18,28 @@
   (def chsk-send!                    send-fn) ; ChannelSocket's send API fn
   (def connected-uids                connected-uids) ; Watchable, read-only atom
   )
+
+
+;;;; Sente event handlers
+
+(defmulti -event-msg-handler
+  "Multimethod to handle Sente `event-msg`s"
+  :id ; Dispatch on event-id
+  )
+
+(defn event-msg-handler
+  "Wraps `-event-msg-handler` with logging, error catching, etc."
+  [{:as ev-msg :keys [id ?data event]}]
+  (-event-msg-handler ev-msg))
+
+(defmethod -event-msg-handler
+  :default ; Default/fallback case (no other matching handler)
+  [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]
+  (let [session (:session ring-req)
+        uid     (:uid     session)]
+    (when ?reply-fn
+      (?reply-fn {:umatched-event-as-echoed-from-from-server event}))))
+
 
 
 (def mount-target
